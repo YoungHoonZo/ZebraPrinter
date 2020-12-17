@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>kr.co.innosoft.InnoLibrary</groupId>
 	<artifactId>zebraprinter</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<name>ZebraPrinter</name>
 	<properties>
 	    <maven.javadoc.skip>false</maven.javadoc.skip>
