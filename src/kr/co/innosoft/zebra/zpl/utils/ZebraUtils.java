@@ -2,6 +2,7 @@ package kr.co.innosoft.zebra.zpl.utils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.List;
 
@@ -30,10 +31,14 @@ public class ZebraUtils {
 	/**
 	 * Function to print code Zpl to network zebra
 	 *
-	 * @param zpl code Zpl to print
-	 * @param ip ip adress
-	 * @param port port
-	 * @throws ZebraPrintException if zpl could not be printed
+	 * @param zpl
+	 *            code Zpl to print
+	 * @param ip
+	 *            ip adress
+	 * @param port
+	 *            port
+	 * @throws ZebraPrintException
+	 *             if zpl could not be printed
 	 */
 	public static void printZpl(String zpl, String ip, int port) throws ZebraPrintException {
 		Socket clientSocket = null;
@@ -56,14 +61,14 @@ public class ZebraUtils {
 	/**
 	 * Function to print code Zpl to local zebra(usb)
 	 *
-	 * @param zpl
-	 *            code Zpl to print
-	 * @param printerName
-	 *	      name of the selected printer
+	 * @param zpl code Zpl to print
+	 * @param printerName name of the selected printer
+	 * @param charSet Character Set
 	 * @throws ZebraPrintException
 	 *             if zpl could not be printed
 	 */
-	public static void printZpl(String zpl, String printerName) throws ZebraPrintException {
+
+	public static void printZpl(String zpl, String printerName, String charSet) throws ZebraPrintException {
 		try {
 
 			PrintService psZebra = null;
@@ -84,13 +89,16 @@ public class ZebraUtils {
 			}
 			DocPrintJob job = psZebra.createPrintJob();
 
-			byte[] by = zpl.getBytes();
+			byte[] by = zpl.getBytes(charSet);
 			DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 			Doc doc = new SimpleDoc(by, flavor, null);
 			job.print(doc, null);
 
 		} catch (PrintException e) {
 			throw new ZebraPrintException("Cannot print label on this printer : " + printerName, e);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -113,22 +121,44 @@ public class ZebraUtils {
 	/**
 	 * Fonction to print zebraLabel
 	 *
-     * @param zebraLabel zebraLabel
-     * @param printerName printerName
-     * @throws ZebraPrintException ZebraPrintException
+	 * @param zebraLabel
+	 *            zebraLabel
+	 * @param ip
+	 *            ip adress
+	 * @param port
+	 *            port
+	 * @throws ZebraPrintException
+	 *             if zpl could not be printed
 	 */
-
 	public static void printZpl(ZebraLabel zebraLabel, String printerName) throws ZebraPrintException {
-		printZpl(zebraLabel.getZplCode(), printerName);
+		printZpl(zebraLabel.getZplCode(), printerName, "UTF-8");
+	}
+
+	/**
+	 * Fonction to print zebraLabel
+	 *
+	 * @param zebraLabel  zebraLabel
+	 * @param ip ip adress
+	 * @param port port
+	 * @param charSet Character Set
+	 * @throws ZebraPrintException
+	 *             if zpl could not be printed
+	 */
+	public static void printZpl(ZebraLabel zebraLabel, String printerName, String charSet) throws ZebraPrintException {
+		printZpl(zebraLabel.getZplCode(), printerName, charSet);
 	}
 
 	/**
 	 * Fonction to print multiple zebraLabel to network printer
 	 *
-	 * @param zebraLabels list of zebra labels
-	 * @param ip ip adress
-	 * @param port port
-	 * @throws ZebraPrintException if zpl could not be printed
+	 * @param zebraLabels
+	 *            list of zebra labels
+	 * @param ip
+	 *            ip adress
+	 * @param port
+	 *            port
+	 * @throws ZebraPrintException
+	 *             if zpl could not be printed
 	 */
 	public static void printZpl(List<ZebraLabel> zebraLabels, String ip, int port) throws ZebraPrintException {
 		StringBuilder zpl = new StringBuilder();
@@ -139,17 +169,40 @@ public class ZebraUtils {
 	}
 
 	/**
-	 *  Fonction to print multiple zebraLabel to local printer
-	 * @param zebraLabels list of zebra labels
-	 * @param printerName printer Name
-	 * @throws ZebraPrintException ZebraPrintException
+	 * Fonction to print multiple zebraLabel to local printer
+	 *
+	 * @param zebraLabels
+	 *            list of zebra labels
+	 * @param ip
+	 *            ip adress
+	 * @param port
+	 *            port
+	 * @throws ZebraPrintException
+	 *             if zpl could not be printed
 	 */
 	public static void printZpl(List<ZebraLabel> zebraLabels, String printerName) throws ZebraPrintException {
 		StringBuilder zpl = new StringBuilder();
 		for (ZebraLabel zebraLabel : zebraLabels) {
 			zpl.append(zebraLabel.getZplCode());
 		}
-		printZpl(zpl.toString(), printerName);
+		printZpl(zpl.toString(), printerName, "UTF-8");
 	}
 
+	/**
+	 * Fonction to print multiple zebraLabel to local printer
+	 *
+	 * @param zebraLabels list of zebra labels
+	 * @param ip ip adress
+	 * @param port port
+	 * @param charSet Character Set
+	 * @throws ZebraPrintException
+	 *             if zpl could not be printed
+	 */
+	public static void printZpl(List<ZebraLabel> zebraLabels, String printerName, String charSet) throws ZebraPrintException {
+		StringBuilder zpl = new StringBuilder();
+		for (ZebraLabel zebraLabel : zebraLabels) {
+			zpl.append(zebraLabel.getZplCode());
+		}
+		printZpl(zpl.toString(), printerName, charSet);
+	}
 }
