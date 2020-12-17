@@ -1,13 +1,13 @@
 package kr.co.innosoft.zebra.zpl.utils;
 
-public class RfidUtils {
+public class RFIDUtils {
 
 	/**
 	 * Hex code to Ascii code converter
 	 * @param hexStr Hex string
 	 * @return
 	 */
-	private static String hexToAscii(String hexStr) {
+	public static String hexToAscii(String hexStr) {
         StringBuilder output = new StringBuilder("");
 
         for (int i = 0; i < hexStr.length(); i += 2) {
@@ -23,7 +23,7 @@ public class RfidUtils {
 	 * @param asciiStr Ascii string
 	 * @return
 	 */
-    private static String asciiToHex(String asciiStr) {
+	public static String asciiToHex(String asciiStr) {
         char[] chars = asciiStr.toCharArray();
         StringBuilder hex = new StringBuilder();
         for (char ch : chars) {
