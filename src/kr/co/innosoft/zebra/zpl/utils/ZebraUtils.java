@@ -196,6 +196,7 @@ public class ZebraUtils {
 	 * @param zebraLabels list of zebra labels
 	 * @param ip ip adress
 	 * @param port port
+	 * @param charSet character set
 	 * @throws ZebraPrintException if zpl could not be printed
 	 */
 	public static void printZpl(List<ZebraLabel> zebraLabels, String ip, int port, String charSet) throws ZebraPrintException {
